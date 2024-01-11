@@ -6,7 +6,7 @@ import java.util.Objects;
  * Represents a SemanticVersion <br>
  * See <a href=https://semver.org/>https://semver.org/</a>
  */
-public class SemanticVersion {
+final class SemanticVersion {
 
     private final int major;
     private final int minor;

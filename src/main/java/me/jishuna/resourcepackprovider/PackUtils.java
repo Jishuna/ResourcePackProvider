@@ -8,10 +8,20 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import org.bukkit.Bukkit;
 
-public final class ResourcePackProvider {
+/**
+ * Resource pack related utilities.
+ */
+public final class PackUtils {
     private static final SemanticVersion MC1_20_2 = new SemanticVersion(1, 20, 2);
     public static final boolean IS_NEW_SYSTEM = SemanticVersion.fromString(getServerVersion()).isNewerThan(MC1_20_2);
 
+    /**
+     * Queries the external ip/host for the running minecraft server. <br>
+     * This involves an external web request so it is highly recommended you cache
+     * this value.
+     *
+     * @return the external ip/host or null if it cannot be determined
+     */
     public static String queryServerHost() {
         try {
             HttpClient client = HttpClient.newHttpClient();
@@ -33,6 +43,6 @@ public final class ResourcePackProvider {
         return version;
     }
 
-    private ResourcePackProvider() {
+    private PackUtils() {
     }
 }

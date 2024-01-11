@@ -1,4 +1,4 @@
 package me.jishuna.resourcepackprovider;
 
-public record PackData(byte[] bytes, byte[] hash) {
+final record PackData(byte[] hash, int size) {
 }
