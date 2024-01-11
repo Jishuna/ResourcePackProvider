@@ -1,9 +1,9 @@
 plugins {
-	id 'eclipse'
-	id 'java'
-	id 'maven-publish'
-	id "com.github.johnrengelman.shadow" version "7.1.2"
-	id "io.freefair.aggregate-javadoc-jar" version "8.4"
+    id 'eclipse'
+    id 'java'
+    id 'maven-publish'
+    id "com.github.johnrengelman.shadow" version "8.1.1"
+    id "io.freefair.aggregate-javadoc-jar" version "8.4"
 }
 
 // shadowJar takes care of this
@@ -19,7 +19,7 @@ shadowJar {
 }
 
 build {
-	dependsOn shadowJar
+    dependsOn shadowJar
 }
 
 aggregateJavadoc.options {
@@ -27,24 +27,24 @@ aggregateJavadoc.options {
     links(
             'https://docs.oracle.com/en/java/javase/17/docs/api/',
             'https://hub.spigotmc.org/javadocs/spigot/',
-    )
+            )
 }
 
 publishing {
-	publications {
-		shadow(MavenPublication) { publication ->
-			project.shadow.component(publication)
-			publication.artifact(aggregateJavadocJar)
-			  
-			repositories {
-				maven {
-					url = 'https://repo.epicebic.xyz/public/'
-					credentials {
-						username = 'josh'
-						password = System.getenv("Secret")
-					}
-				}
-			}
-		}
-	}
+    publications {
+        shadow(MavenPublication) { publication ->
+            project.shadow.component(publication)
+            publication.artifact(aggregateJavadocJar)
+
+            repositories {
+                maven {
+                    url = 'https://repo.epicebic.xyz/public/'
+                    credentials {
+                        username = 'josh'
+                        password = System.getenv("Secret")
+                    }
+                }
+            }
+        }
+    }
 }
