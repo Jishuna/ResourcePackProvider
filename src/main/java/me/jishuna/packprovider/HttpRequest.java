@@ -16,7 +16,7 @@ public class HttpRequest {
         try (ByteBufInputStream stream = new ByteBufInputStream(buf)) {
             return parse(stream);
         } catch (IOException e) {
-            throw new RuntimeException("Temp");
+            throw new HTTPException("Failed to parse HTTP request", e);
         }
     }
 
@@ -27,8 +27,8 @@ public class HttpRequest {
             Map<String, String> headers = readHeaders(reader);
 
             return new HttpRequest(request, headers);
-        } catch (IOException e) {
-            throw new RuntimeException("Temp");
+        } catch (Exception e) {
+            throw new HTTPException("Failed to parse HTTP request", e);
         }
     }
 
@@ -39,7 +39,7 @@ public class HttpRequest {
         while (header != null && !header.isEmpty()) {
             int split = header.indexOf(':');
             if (split < 0) {
-                throw new RuntimeException("Temp");
+                continue;
             }
 
             headers.put(header.substring(0, split), header.substring(split + 1).trim());

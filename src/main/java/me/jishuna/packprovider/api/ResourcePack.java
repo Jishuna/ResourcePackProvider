@@ -1,50 +1,90 @@
 package me.jishuna.packprovider.api;
 
+import com.google.common.base.Preconditions;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
 import java.util.UUID;
 
+/**
+ * Represents a hosted resource pack that can be sent to players
+ */
 public class ResourcePack {
     private final String uri;
     private final UUID uuid;
     private final byte[] hash;
     private final File file;
 
-    public ResourcePack(String uri, byte[] hash, File file) {
+    ResourcePack(String uri, byte[] hash, File file) {
         this.uuid = UUID.nameUUIDFromBytes(hash);
         this.hash = hash;
         this.uri = uri + this.uuid;
         this.file = file;
-
-        System.out.println(this.uri);
     }
 
-    public void send(Player player) {
+    /**
+     * Sends this resource pack to the provided player., uses the default prompt message and does not force the client to use the pack.
+     * @param player the player to send to
+     */
+    public void send(@NotNull Player player) {
         send(player, null, false);
     }
 
-    public void send(Player player, String prompt) {
+    /**
+     * Sends this resource pack to the provided player., does not force the client to use the pack.
+     * @param player the player to send to
+     * @param prompt the custom prompt to show the player before downloading
+     */
+    public void send(@NotNull Player player, String prompt) {
         send(player, prompt, false);
     }
 
-    public void send(Player player, boolean force) {
+    /**
+     * Sends this resource pack to the provided player., uses the default prompt message.
+     * @param player the player to send to
+     * @param force whether to force the client to accept the pack or disconnect from the server
+     */
+    public void send(@NotNull Player player, boolean force) {
         send(player, null, force);
     }
 
-    public void send(Player player, String prompt, boolean force) {
+    /**
+     * Sends this resource pack to the provided player.
+     * @param player the player to send to
+     * @param prompt the custom prompt to show the player before downloading
+     * @param force whether to force the client to accept the pack or disconnect from the server
+     */
+    public void send(@NotNull Player player, @Nullable String prompt, boolean force) {
+        Preconditions.checkArgument(player != null, "Player cannot be null");
+
         player.addResourcePack(this.uuid, this.uri, this.hash, prompt, force);
     }
 
-    public void remove(Player player) {
+    /**
+     * Removes this resource pack from the provided player, if they are using it.
+     * @param player
+     */
+    public void remove(@NotNull Player player) {
+        Preconditions.checkArgument(player != null, "Player cannot be null");
+
         player.removeResourcePack(this.uuid);
     }
 
-    public UUID getUUID() {
+    /**
+     * Gets the UUID of this resource pack.
+     * @return the UUID
+     */
+    public @NotNull UUID getUUID() {
         return this.uuid;
     }
 
-    public File getFile() {
+    /**
+     * Gets the file of this resource pack.
+     * @return the file
+     */
+    public @NotNull File getFile() {
         return file;
     }
 }

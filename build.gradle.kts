@@ -1,5 +1,5 @@
 plugins {
-    id("java")
+    id("java-library")
     id("net.minecrell.plugin-yml.bukkit") version "0.6.0"
     id("io.github.goooler.shadow") version "8.1.7"
 }
@@ -13,8 +13,9 @@ tasks.withType<JavaCompile> {
 }
 
 dependencies {
-    compileOnly("org.spigotmc:spigot:1.21-R0.1-SNAPSHOT")
-    implementation("io.netty:netty-codec-http:4.1.97.Final")
+    compileOnlyApi("org.spigotmc:spigot-api:1.20.5-R0.1-SNAPSHOT")
+    compileOnlyApi("io.netty:netty-transport:4.1.97.Final")
+    compileOnlyApi("org.jetbrains:annotations:24.0.0")
 }
 
 bukkit {

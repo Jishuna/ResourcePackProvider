@@ -8,7 +8,7 @@ import me.jishuna.packprovider.api.PackProvider;
 public class PreChannelInitializer extends ChannelInboundHandlerAdapter {
     private final PackProvider provider;
 
-    public PreChannelInitializer(PackProvider provider) {
+    PreChannelInitializer(PackProvider provider) {
         this.provider = provider;
     }
 

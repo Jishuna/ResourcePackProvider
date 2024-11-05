@@ -17,7 +17,7 @@ public class TempMain extends JavaPlugin implements Listener {
     public void onEnable() {
         Bukkit.getPluginManager().registerEvents(this, this);
         try {
-            provider = PackProvider.create(this);
+            provider = PackProvider.create(this, "localhost");
             provider.addPack(new File(getDataFolder(), "test.zip"));
             provider.addPack(new File(getDataFolder(), "test2.zip"));
         } catch (PackProviderException e) {

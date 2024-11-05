@@ -41,7 +41,6 @@ public class NettyInjector {
 
         List<ChannelFuture> connectionChannels = (List<ChannelFuture>) channelFutureListField.read(serverConnection);
         connectionChannels.forEach(channelFuture -> {
-            System.out.println(channelFuture.channel().pipeline().names());
 
             ChannelPipeline pipeline = channelFuture.channel().pipeline();
             if (pipeline.context(injectorName) != null) {
