@@ -3,11 +3,12 @@ package me.jishuna.packprovider.netty;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelPipeline;
 import me.jishuna.packprovider.api.PackProvider;
-import me.jishuna.packprovider.api.ReflectionException;
 import me.jishuna.packprovider.reflection.FieldAccess;
+import me.jishuna.packprovider.reflection.ReflectionException;
 import me.jishuna.packprovider.reflection.ReflectionHelper;
 import org.bukkit.Bukkit;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class NettyInjector {
@@ -18,12 +19,13 @@ public class NettyInjector {
     private static final FieldAccess<?> serverConnectionField = ReflectionHelper.getField(serverClass, serverConnectionClass, 0);
     private static final FieldAccess<?> channelFutureListField = ReflectionHelper.getField(serverConnectionClass, List.class, 0);
 
+    private final List<ChannelFuture> serverChannels = new ArrayList<>();
     private final PackProvider provider;
     private final String injectorName;
 
-    public NettyInjector(PackProvider provider) {
+    public NettyInjector(PackProvider provider, String name) {
         this.provider = provider;
-        this.injectorName = "RPP-%s-Injector".formatted(provider.getPlugin().getName());
+        this.injectorName = "RPP-%s-Injector".formatted(name);
     }
 
     public void inject() {
@@ -31,6 +33,15 @@ public class NettyInjector {
             injectChannelHandler();
         } catch (Exception e) {
             throw new ReflectionException("Netty injection failed", e);
+        }
+    }
+
+    public void cleanup() {
+        for (ChannelFuture channelFuture : serverChannels) {
+            ChannelPipeline pipeline = channelFuture.channel().pipeline();
+            if (pipeline.context(injectorName) != null) {
+                pipeline.remove(injectorName);
+            }
         }
     }
 
@@ -47,6 +58,7 @@ public class NettyInjector {
                 pipeline.remove(injectorName);
             }
             channelFuture.channel().pipeline().addFirst(injectorName, new ServerChannelInjector(provider));
+            serverChannels.add(channelFuture);
         });
     }
 }

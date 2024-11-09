@@ -1,4 +1,4 @@
-package me.jishuna.packprovider.api;
+package me.jishuna.packprovider.reflection;
 
 public class ReflectionException extends RuntimeException {
 

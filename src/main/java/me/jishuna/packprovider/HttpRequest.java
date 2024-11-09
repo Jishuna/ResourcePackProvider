@@ -78,8 +78,4 @@ public class HttpRequest {
     public String getHeaderValue(String name) {
         return this.headers.get(name);
     }
-
-    public void temp() {
-        this.headers.forEach((k, v) -> System.out.println(k + " : " + v));
-    }
 }
