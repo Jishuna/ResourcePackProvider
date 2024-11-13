@@ -100,10 +100,6 @@ public class ResourcePack {
         playerStatus.put(player.getUniqueId(), status);
     }
 
-    public void resetStatus(Player player) {
-        playerStatus.remove(player.getUniqueId());
-    }
-
     public boolean isSendOnJoin() {
         return sendOnJoin;
     }

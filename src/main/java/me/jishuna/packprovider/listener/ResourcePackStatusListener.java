@@ -29,7 +29,7 @@ public class ResourcePackStatusListener implements Listener {
     @EventHandler(priority = EventPriority.MONITOR)
     public void onPlayerLeave(PlayerQuitEvent event) {
         for (ResourcePack pack : provider) {
-            pack.resetStatus(event.getPlayer());
+            pack.updateStatus(event.getPlayer(), Status.UNKNOWN);
         }
     }
 }
